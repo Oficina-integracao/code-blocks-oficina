@@ -6,7 +6,13 @@
 
 set -e
 
-REPO="lucaszsilva1/code-blocks-arduino"
+REMOTE_URL=$(git config --get remote.origin.url || echo "")
+if [[ -z "$REMOTE_URL" || "$REMOTE_URL" != *"github.com"* ]]; then
+    echo "❌ Erro: O remote origin não é um repositório GitHub válido: '$REMOTE_URL'"
+    exit 1
+fi
+
+REPO=$(echo "$REMOTE_URL" | sed -E 's/.*github\.com[:\/]([^\/]+\/[^\/\.]+)(\.git)?/\1/')
 
 echo "=== Code Blocks Arduino: Sincronização de Issues com GitHub ==="
 echo "Repositório alvo: $REPO"
@@ -18,9 +24,9 @@ if ! gh auth status &>/dev/null; then
     exit 1
 fi
 
-# 2. Obter issues já existentes para deduplicação
+# 2. Obter issues já existentes para deduplicação (abertas e fechadas)
 echo "Buscando issues existentes no repositório..."
-EXISTING_ISSUES=$(gh issue list --repo "$REPO" --limit 200 --json title --jq '.[].title' 2>/dev/null || echo "")
+EXISTING_ISSUES=$(gh issue list --repo "$REPO" --state all --limit 200 --json title --jq '.[].title' 2>/dev/null || echo "")
 
 create_issue_if_missing() {
     local task_id="$1"
