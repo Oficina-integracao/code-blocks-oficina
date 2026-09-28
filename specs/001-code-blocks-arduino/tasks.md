@@ -42,7 +42,7 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 
 ### Tests for User Story 1 (TDD - Write FIRST, ensure FAIL before implementation) ⚠️
 
-- [ ] T011 [P] [US1] Unit test for foundational variable blocks code generation in tests/unit/generator/variables.test.ts
+- [X] T011 [P] [US1] Unit test for foundational variable blocks code generation in tests/unit/generator/variables.test.ts
 - [ ] T012 [P] [US1] Unit test for arithmetic and logical operator blocks code generation in tests/unit/generator/operators.test.ts
 - [ ] T013 [P] [US1] Unit test for conditional (if/else) blocks code generation in tests/unit/generator/conditionals.test.ts
 - [ ] T014 [P] [US1] Unit test for repetition loop blocks code generation in tests/unit/generator/loops.test.ts
@@ -50,7 +50,7 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 
 ### Implementation for User Story 1
 
-- [ ] T016 [P] [US1] Implement custom Blockly variable block definitions and C/C++ code generators in src/core/generator/blocks/variables.ts
+- [X] T016 [P] [US1] Implement custom Blockly variable block definitions and C/C++ code generators in src/core/generator/blocks/variables.ts
 - [ ] T017 [P] [US1] Implement arithmetic and logical operator block definitions and C/C++ generators in src/core/generator/blocks/operators.ts
 - [ ] T018 [P] [US1] Implement conditional (if / if-else) block definitions and C/C++ generators in src/core/generator/blocks/conditionals.ts
 - [ ] T019 [P] [US1] Implement repetition loop block definitions and C/C++ generators in src/core/generator/blocks/loops.ts
