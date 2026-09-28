@@ -1,0 +1,22 @@
+/**
+ * C/C++ operator precedence orders for the Arduino generator.
+ * Higher number means lower precedence.
+ */
+export enum Order {
+  ATOMIC = 0,            // 0, "abc", variable, (...)
+  POSTFIX = 1,           // expr++ expr-- () []
+  UNARY_PREFIX = 2,      // ++expr --expr +expr -expr ! ~
+  MULTIPLICATIVE = 3,    // * / %
+  ADDITIVE = 4,          // + -
+  SHIFT = 5,             // << >>
+  RELATIONAL = 6,        // < <= > >=
+  EQUALITY = 7,          // == !=
+  BITWISE_AND = 8,       // &
+  BITWISE_XOR = 9,       // ^
+  BITWISE_OR = 10,       // |
+  LOGICAL_AND = 11,      // &&
+  LOGICAL_OR = 12,       // ||
+  CONDITIONAL = 13,      // ? :
+  ASSIGNMENT = 14,       // = += -= *= /=
+  NONE = 99,
+}

@@ -7,8 +7,11 @@
 ![Blockly](https://img.shields.io/badge/Google-Blockly-blue)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)
 ![Arduino](https://img.shields.io/badge/Arduino-C%2FC%2B%2B-00979D)
+[![Scrum Plan](https://img.shields.io/badge/Planejamento-Scrum%20(2%20Sprints)-blueviolet)](PLANEJAMENTO_SCRUM.md)
 
 ---
+
+> 📋 **Documento de Planejamento Acadêmico:** Consulte o [Plano de Projeto e Divisão de Trabalho Scrum](PLANEJAMENTO_SCRUM.md) detalhando as 2 Sprints e a divisão vertical para 5 desenvolvedores.
 
 ## 📖 Sobre o Projeto
 
