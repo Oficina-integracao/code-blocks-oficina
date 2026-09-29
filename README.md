@@ -1499,10 +1499,11 @@ Até que uma licença seja oficialmente definida, não assumir automaticamente u
 
 | Integrante | Responsabilidade |
 | ---------- | ---------------- |
-| A definir  | A definir        |
-| A definir  | A definir        |
-| A definir  | A definir        |
-| A definir  | A definir        |
+| Lucas Silva  | Dev 1       |
+| Joao flavio  | Dev 2      |
+| Thiago  | Dev 3      |
+| Yumi  | Dev 4        |
+| Murilo  | Dev 5        |
 
 A divisão definitiva deve ser mantida no GitHub e atualizada conforme os épicos forem atribuídos.
 
