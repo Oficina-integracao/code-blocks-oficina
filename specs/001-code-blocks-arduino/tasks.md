@@ -43,17 +43,17 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 ### Tests for User Story 1 (TDD - Write FIRST, ensure FAIL before implementation) ⚠️
 
 - [X] T011 [P] [US1] Unit test for foundational variable blocks code generation in tests/unit/generator/variables.test.ts
-- [ ] T012 [P] [US1] Unit test for arithmetic and logical operator blocks code generation in tests/unit/generator/operators.test.ts
-- [ ] T013 [P] [US1] Unit test for conditional (if/else) blocks code generation in tests/unit/generator/conditionals.test.ts
-- [ ] T014 [P] [US1] Unit test for repetition loop blocks code generation in tests/unit/generator/loops.test.ts
+- [X] T012 [P] [US1] Unit test for arithmetic and logical operator blocks code generation in tests/unit/generator/operators.test.ts
+- [X] T013 [P] [US1] Unit test for conditional (if/else) blocks code generation in tests/unit/generator/conditionals.test.ts
+- [X] T014 [P] [US1] Unit test for repetition loop blocks code generation in tests/unit/generator/loops.test.ts
 - [ ] T015 [P] [US1] Unit test for full ArduinoGenerator integration (skeleton, definitions, setup, loop, orphan blocks) in tests/unit/generator/arduino-generator.test.ts
 
 ### Implementation for User Story 1
 
 - [X] T016 [P] [US1] Implement custom Blockly variable block definitions and C/C++ code generators in src/core/generator/blocks/variables.ts
-- [ ] T017 [P] [US1] Implement arithmetic and logical operator block definitions and C/C++ generators in src/core/generator/blocks/operators.ts
-- [ ] T018 [P] [US1] Implement conditional (if / if-else) block definitions and C/C++ generators in src/core/generator/blocks/conditionals.ts
-- [ ] T019 [P] [US1] Implement repetition loop block definitions and C/C++ generators in src/core/generator/blocks/loops.ts
+- [X] T017 [P] [US1] Implement arithmetic and logical operator block definitions and C/C++ generators in src/core/generator/blocks/operators.ts
+- [X] T018 [P] [US1] Implement conditional (if / if-else) block definitions and C/C++ generators in src/core/generator/blocks/conditionals.ts
+- [X] T019 [P] [US1] Implement repetition loop block definitions and C/C++ generators in src/core/generator/blocks/loops.ts
 - [ ] T020 [US1] Implement core ArduinoGenerator class extending Blockly.Generator assembling setup() and loop() skeleton in src/core/generator/arduino-generator.ts (depends on T016-T019)
 - [ ] T021 [P] [US1] Define Blockly toolbox configuration containing fundamental algorithm categories in src/core/generator/toolbox.ts
 - [ ] T022 [US1] Implement dynamic client-side Blockly workspace container component with SVG injection in src/components/workspace/blockly-workspace.tsx
