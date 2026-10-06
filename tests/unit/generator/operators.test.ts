@@ -414,4 +414,58 @@ describe('Operator Blocks Code Generation (T012)', () => {
       expect(result.code).toContain('if (temperatura >= 50) {\n    ventilador = 1;\n  }\n');
     });
   });
+
+  describe('Additional Math and Logic Operations (math_round, math_constrain, logic_ternary, logic_null)', () => {
+    it('generates round, ceil, and floor for math_round', () => {
+      const rBlock = workspace.newBlock('math_round');
+      rBlock.setFieldValue('ROUND', 'OP');
+      connectValue(rBlock, 'NUM', createNumberBlock(workspace, 3.7));
+      expect(generator.blockToCode(rBlock)[0]).toBe('round(3.7)');
+
+      const ceilBlock = workspace.newBlock('math_round');
+      ceilBlock.setFieldValue('ROUNDUP', 'OP');
+      connectValue(ceilBlock, 'NUM', createNumberBlock(workspace, 3.2));
+      expect(generator.blockToCode(ceilBlock)[0]).toBe('ceil(3.2)');
+
+      const floorBlock = workspace.newBlock('math_round');
+      floorBlock.setFieldValue('ROUNDDOWN', 'OP');
+      connectValue(floorBlock, 'NUM', createNumberBlock(workspace, 3.9));
+      expect(generator.blockToCode(floorBlock)[0]).toBe('floor(3.9)');
+    });
+
+    it('generates constrain() for math_constrain', () => {
+      const block = workspace.newBlock('math_constrain');
+      connectValue(block, 'VALUE', createVariableGetBlock(workspace, 'leitura'));
+      connectValue(block, 'LOW', createNumberBlock(workspace, 0));
+      connectValue(block, 'HIGH', createNumberBlock(workspace, 1023));
+
+      const [code] = generator.blockToCode(block) as [string, number];
+      expect(code).toBe('constrain(leitura, 0, 1023)');
+    });
+
+    it('generates random() for math_random_int', () => {
+      const block = workspace.newBlock('math_random_int');
+      connectValue(block, 'FROM', createNumberBlock(workspace, 1));
+      connectValue(block, 'TO', createNumberBlock(workspace, 6));
+
+      const [code] = generator.blockToCode(block) as [string, number];
+      expect(code).toBe('random(1, 6 + 1)');
+    });
+
+    it('generates ternary conditional expression for logic_ternary', () => {
+      const block = workspace.newBlock('logic_ternary');
+      connectValue(block, 'IF', createVariableGetBlock(workspace, 'ligado'));
+      connectValue(block, 'THEN', createNumberBlock(workspace, 255));
+      connectValue(block, 'ELSE', createNumberBlock(workspace, 0));
+
+      const [code] = generator.blockToCode(block) as [string, number];
+      expect(code).toBe('(ligado ? 255 : 0)');
+    });
+
+    it('generates NULL for logic_null', () => {
+      const block = workspace.newBlock('logic_null');
+      const [code] = generator.blockToCode(block) as [string, number];
+      expect(code).toBe('NULL');
+    });
+  });
 });
