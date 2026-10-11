@@ -118,6 +118,10 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 
 - [ ] T041 [P] Implement responsive navigation header with user profile menu and role-aware navigation links in src/components/layout/header.tsx and src/app/layout.tsx
 - [ ] T042 [P] Create educational landing page highlighting ELLP/UTFPR academic context and Google login in src/app/page.tsx
+  - [X] Implement institutional content, algorithm illustration, usage explanation, and Workspace entry links in server-rendered components.
+  - [X] Validate page heading structure, Workspace link destinations, and the local how-it-works anchor with automated tests.
+  - [X] Review the new landing page visually on desktop and mobile (confirmed by the developer).
+  - [ ] Integrate the Workspace destination after T024 and Google login after T029; these dependencies remain outside the current independent delivery.
 - [ ] T043 [P] Create seed script and Supabase local configuration for initial admin account in supabase/seed.sql
 - [ ] T044 Run all end-to-end validation scenarios per specs/001-code-blocks-arduino/quickstart.md
 - [ ] T045 Execute full static analysis, typecheck, and test suite to verify 100% CI pass and line limits per Constitution DoD in src/
