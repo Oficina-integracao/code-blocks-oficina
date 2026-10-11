@@ -16,7 +16,7 @@ export function InstitutionalLogos() {
         alt="ELLP — Ensino Lúdico de Lógica e Programação"
         width={300}
         height={216}
-        className="h-auto w-20"
+        className="h-auto w-[100px]"
       />
     </div>
   );

@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Blocks, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { InstitutionalLogos } from "@/components/layout/institutional-logos";
 
@@ -25,9 +25,14 @@ export function Header() {
         <Link
           href="/"
           onClick={() => setIsOpen(false)}
-          className="justify-self-start rounded-md text-base font-bold tracking-tight text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+          className="flex items-center gap-2.5 justify-self-start rounded-md text-sm font-bold tracking-tight text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 sm:text-base"
         >
-          Code Blocks <span className="text-arduino-dark">Arduino</span>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-arduino-light text-arduino-dark">
+            <Blocks size={20} aria-hidden="true" />
+          </span>
+          <span>
+            Code Blocks <span className="text-arduino-dark">Arduino</span>
+          </span>
         </Link>
         <button
           ref={toggleRef}
