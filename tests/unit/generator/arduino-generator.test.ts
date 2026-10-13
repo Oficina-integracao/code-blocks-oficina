@@ -44,6 +44,7 @@ describe("ArduinoGenerator integration (T015)", () => {
         previousStatement: null,
         nextStatement: null,
       },
+      { type: "test_unsupported_value", message0: "unknown value", output: null },
     ]);
   });
 
@@ -205,6 +206,23 @@ describe("ArduinoGenerator integration (T015)", () => {
     expect(result.isValid).toBe(false);
   });
 
+  it("uses a safe fallback for unsupported value inputs and reports the block", () => {
+    const statement = assign(workspace, "ativa", 7);
+    statement.getInputTargetBlock("VALUE")!.dispose();
+    connectValue(statement, "VALUE", workspace.newBlock("test_unsupported_value"));
+    const result = generator.generateCode(workspace);
+    expect(result.loopCode).toEqual(["ativa = 0;\n"]);
+    expect(result.isValid).toBe(false);
+    expect(result.errors?.join(" ")).toContain("test_unsupported_value");
+  });
+
+  it("retains the existing safe defaults for incomplete control inputs", () => {
+    workspace.newBlock("controls_if");
+    const result = generator.generateCode(workspace);
+    expect(result.code).toContain("  if (false) {\n  }\n");
+    expect(result.isValid).toBe(true);
+  });
+
   it("retains valid flow statements inside repetition", () => {
     const repeat = workspace.newBlock("controls_repeat_ext");
     connectValue(repeat, "TIMES", number(workspace, 3));
@@ -225,6 +243,12 @@ describe("ArduinoGenerator integration (T015)", () => {
   });
 
   it("clears buffers and diagnostics between workspaces and preserves previous results", () => {
+    generator.forBlock["test_setup"] = () => {
+      generator.setupCode_.push("Serial.begin(9600);");
+      return "";
+    };
+    workspace.newBlock("test_setup");
+    workspace.newBlock("test_unsupported");
     assign(workspace, "antiga", 9);
     const first = generator.generateCode(workspace);
     workspace.clear();
@@ -233,7 +257,10 @@ describe("ArduinoGenerator integration (T015)", () => {
     expect(second.setupCode).toEqual([]);
     expect(second.loopCode).toEqual([]);
     expect(second.isValid).toBe(true);
+    expect(second.errors).toBeUndefined();
     expect(first.definitions).toEqual(["int antiga = 0;"]);
+    expect(first.setupCode).toEqual(["Serial.begin(9600);"]);
+    expect(first.errors?.join(" ")).toContain("test_unsupported");
   });
 
   it("supports the standard Blockly workspaceToCode entry point", () => {
