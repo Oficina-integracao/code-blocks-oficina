@@ -271,9 +271,27 @@ describe("ArduinoGenerator integration (T015)", () => {
   it("uses valid C++ identifiers for numeric prefixes and reserved names", () => {
     declare(workspace, "123 nome", 1);
     declare(workspace, "setup", 2);
+    const emptyName = declare(workspace, "", 3);
+    emptyName.nextConnection!.connect(assign(workspace, "variavel", 4).previousConnection!);
     const result = generator.generateCode(workspace);
     expect(result.definitions).toContain("int var_123_nome = 1;");
     expect(result.definitions).not.toContain("int setup = 2;");
+    expect(result.definitions.filter((definition) => definition.includes("variavel"))).toEqual([
+      "int variavel = 3;",
+    ]);
+    expect(generator.generateCode(workspace)).toEqual(result);
+  });
+
+  it("keeps distinct names distinct after sanitization and protects C++ keywords", () => {
+    declare(workspace, "sensor-a", 1);
+    declare(workspace, "sensor_a", 2);
+    declare(workspace, "class", 3);
+    const result = generator.generateCode(workspace);
+    expect(result.definitions).toEqual([
+      "int sensor_a = 1;",
+      "int sensor_a2 = 2;",
+      "int class2 = 3;",
+    ]);
     expect(generator.generateCode(workspace)).toEqual(result);
   });
 });

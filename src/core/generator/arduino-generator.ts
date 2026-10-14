@@ -7,6 +7,15 @@ import { registerOperatorBlocks } from "./blocks/operators";
 import { registerConditionalBlocks } from "./blocks/conditionals";
 import { registerLoopBlocks } from "./blocks/loops";
 
+const CPP_RESERVED_WORDS = [
+  "alignas,alignof,and,and_eq,asm,auto,bitand,bitor,char8_t,char16_t,char32_t,class,compl",
+  "concept,const,consteval,constexpr,constinit,const_cast,co_await,co_return,co_yield,decltype",
+  "default,delete,dynamic_cast,enum,explicit,export,extern,friend,inline,mutable,namespace,new",
+  "noexcept,not,not_eq,nullptr,operator,or,or_eq,private,protected,public,register,reinterpret_cast",
+  "requires,signed,sizeof,static,static_assert,static_cast,struct,template,this,thread_local,throw",
+  "try,typedef,typeid,typename,union,unsigned,using,virtual,volatile,wchar_t,xor,xor_eq",
+].join(",");
+
 /** Coordinates the existing block generators into a deterministic Arduino sketch. */
 export class ArduinoGenerator extends Blockly.Generator implements ArduinoGeneratorContract {
   public Order = Order;
@@ -14,13 +23,15 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
   public setupCode_: string[] = [];
   private generating = false;
   private errors: string[] = [];
+  private identifiers = new Map<string, string>();
 
   constructor(name = "Arduino") {
     super(name);
     this.addReservedWords(
       "setup,loop,if,else,for,switch,case,while,do,break,continue,return,goto," +
         "define,include,HIGH,LOW,INPUT,OUTPUT,INPUT_PULLUP,true,false,null," +
-        "int,float,double,char,byte,bool,boolean,void,long,short,String",
+        "int,float,double,char,byte,bool,boolean,void,long,short,String," +
+        CPP_RESERVED_WORDS,
     );
     this.nameDB_ = new Blockly.Names(this.RESERVED_WORDS_);
     registerVariableBlocks(this);
@@ -30,9 +41,17 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
   }
 
   public cleanIdentifier(name: string): string {
+    const original = name.trim();
+    const existing = this.identifiers.get(original);
+    if (existing) return existing;
     let identifier = name.trim().replace(/[^a-zA-Z0-9_]/g, "_") || "unnamed_var";
     if (/^[0-9]/.test(identifier)) identifier = `var_${identifier}`;
-    return this.nameDB_!.getName(identifier, Blockly.Names.NameType.DEVELOPER_VARIABLE);
+    const unique = this.nameDB_!.getDistinctName(
+      identifier,
+      Blockly.Names.NameType.DEVELOPER_VARIABLE,
+    );
+    this.identifiers.set(original, unique);
+    return unique;
   }
 
   public override init(workspace: Blockly.Workspace): void {
@@ -40,6 +59,7 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
     this.setupCode_ = [];
     this.errors = [];
     this.nameDB_!.reset();
+    this.identifiers.clear();
     this.isInitialized = true;
     this.generating = true;
   }
@@ -78,7 +98,7 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
 
   private collectVariable(block: Blockly.Block, code: string): string {
     if (!/^variables_(declare|set|get|change)$/.test(block.type)) return code;
-    const name = this.cleanIdentifier(block.getField("VAR")!.getText());
+    const name = this.cleanIdentifier(block.getField("VAR")!.getText() || "variavel");
     const key = `variable_${name}`;
     if (block.type === "variables_declare") {
       if (block.getSurroundParent()) return code;
