@@ -6,15 +6,12 @@ import { registerVariableBlocks } from "./blocks/variables";
 import { registerOperatorBlocks } from "./blocks/operators";
 import { registerConditionalBlocks } from "./blocks/conditionals";
 import { registerLoopBlocks } from "./blocks/loops";
-
-const CPP_RESERVED_WORDS = [
-  "alignas,alignof,and,and_eq,asm,auto,bitand,bitor,char8_t,char16_t,char32_t,class,compl",
-  "concept,const,consteval,constexpr,constinit,const_cast,co_await,co_return,co_yield,decltype",
-  "default,delete,dynamic_cast,enum,explicit,export,extern,friend,inline,mutable,namespace,new",
-  "noexcept,not,not_eq,nullptr,operator,or,or_eq,private,protected,public,register,reinterpret_cast",
-  "requires,signed,sizeof,static,static_assert,static_cast,struct,template,this,thread_local,throw",
-  "try,typedef,typeid,typename,union,unsigned,using,virtual,volatile,wchar_t,xor,xor_eq",
-].join(",");
+import { ARDUINO_RESERVED_WORDS } from "./reserved-words";
+import {
+  analyzeVariableTypes,
+  VARIABLE_DEFAULTS,
+  type VariableTypeAnalysis,
+} from "./variable-types";
 
 /** Coordinates the existing block generators into a deterministic Arduino sketch. */
 export class ArduinoGenerator extends Blockly.Generator implements ArduinoGeneratorContract {
@@ -24,15 +21,11 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
   private generating = false;
   private errors: string[] = [];
   private identifiers = new Map<string, string>();
+  private variableTypes?: VariableTypeAnalysis;
 
   constructor(name = "Arduino") {
     super(name);
-    this.addReservedWords(
-      "setup,loop,if,else,for,switch,case,while,do,break,continue,return,goto," +
-        "define,include,HIGH,LOW,INPUT,OUTPUT,INPUT_PULLUP,true,false,null," +
-        "int,float,double,char,byte,bool,boolean,void,long,short,String," +
-        CPP_RESERVED_WORDS,
-    );
+    this.addReservedWords(ARDUINO_RESERVED_WORDS);
     this.nameDB_ = new Blockly.Names(this.RESERVED_WORDS_);
     registerVariableBlocks(this);
     registerOperatorBlocks(this);
@@ -60,6 +53,7 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
     this.errors = [];
     this.nameDB_!.reset();
     this.identifiers.clear();
+    this.variableTypes = analyzeVariableTypes(workspace);
     this.isInitialized = true;
     this.generating = true;
   }
@@ -79,6 +73,7 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
   }
 
   private invalidBlockReason(block: Blockly.Block): string | undefined {
+    if (this.variableTypes?.errors.has(block.id)) return this.variableTypes.errors.get(block.id);
     if (!this.forBlock[block.type]) return `Unsupported block type: ${block.type}`;
     if (block.type !== "controls_flow_statements") return;
     let parent = block.getSurroundParent();
@@ -105,7 +100,9 @@ export class ArduinoGenerator extends Blockly.Generator implements ArduinoGenera
       this.definitions_[key] = code.trimEnd();
       return "";
     }
-    this.definitions_[key] ??= `int ${name} = 0;`;
+    const type =
+      this.variableTypes?.types.get(block.getField("VAR")!.getText().trim() || "variavel") ?? "int";
+    this.definitions_[key] ??= `${type} ${name} = ${VARIABLE_DEFAULTS[type]};`;
     return code;
   }
 
