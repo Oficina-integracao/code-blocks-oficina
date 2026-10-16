@@ -4,7 +4,7 @@ import * as React from "react";
 import * as Blockly from "blockly";
 import * as Portuguese from "blockly/msg/pt-br";
 import { defineVariableBlocks } from "@/core/generator/blocks/variables";
-import { toolbox } from "@/core/generator/toolbox";
+import { createPlaygroundTheme, playgroundToolbox } from "./playground-theme";
 import type { BlocklyWorkspaceProps } from "./blockly-workspace";
 
 export default function BlocklyCanvas({ onReady, onChange }: BlocklyWorkspaceProps) {
@@ -20,13 +20,15 @@ export default function BlocklyCanvas({ onReady, onChange }: BlocklyWorkspacePro
     Blockly.setLocale(Object.fromEntries(messages));
     defineVariableBlocks();
     const workspace = Blockly.inject(container.current, {
-      toolbox,
+      toolbox: playgroundToolbox,
+      theme: createPlaygroundTheme(),
+      renderer: "zelos",
       media: "/blockly/media/",
       sounds: false,
       trashcan: true,
       move: { scrollbars: true, drag: true, wheel: true },
       zoom: { controls: true, wheel: true, startScale: 0.9 },
-      grid: { spacing: 24, length: 2, colour: "#cbd5e1", snap: false },
+      grid: { spacing: 26, length: 2, colour: "#ded1ed", snap: false },
     });
     const handleChange = (event: Blockly.Events.Abstract) => {
       if (!event.isUiEvent) callbacks.current.onChange?.(workspace);
@@ -50,7 +52,7 @@ export default function BlocklyCanvas({ onReady, onChange }: BlocklyWorkspacePro
       ref={container}
       role="region"
       aria-label="Área de blocos"
-      className="relative h-full min-h-[28rem] w-full overflow-hidden"
+      className="relative h-full min-h-[20rem] w-full overflow-hidden"
     />
   );
 }
