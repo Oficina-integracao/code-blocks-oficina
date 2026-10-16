@@ -14,7 +14,7 @@ function extractVarName(block: Blockly.Block, fieldName = 'VAR'): string {
   return block.workspace?.getVariableById?.(idOrName)?.name || idOrName || 'variavel';
 }
 
-function ensureBlocksDefined(): void {
+export function defineVariableBlocks(): void {
   if (Blockly.Blocks['variables_declare']) return;
 
   Blockly.common.defineBlocksWithJsonArray([
@@ -55,7 +55,7 @@ function ensureBlocksDefined(): void {
  * Registers variable block definitions and Arduino code generators.
  */
 export function registerVariableBlocks(generator: ArduinoGenerator): void {
-  ensureBlocksDefined();
+  defineVariableBlocks();
 
   generator.forBlock['variables_declare'] = (block: Blockly.Block) => {
     const type = block.getFieldValue('TYPE') || 'int';
