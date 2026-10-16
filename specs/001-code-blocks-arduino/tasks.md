@@ -46,7 +46,7 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 - [X] T012 [P] [US1] Unit test for arithmetic and logical operator blocks code generation in tests/unit/generator/operators.test.ts
 - [X] T013 [P] [US1] Unit test for conditional (if/else) blocks code generation in tests/unit/generator/conditionals.test.ts
 - [X] T014 [P] [US1] Unit test for repetition loop blocks code generation in tests/unit/generator/loops.test.ts
-- [ ] T015 [P] [US1] Unit test for full ArduinoGenerator integration (skeleton, definitions, setup, loop, orphan blocks) in tests/unit/generator/arduino-generator.test.ts
+- [X] T015 [P] [US1] Unit test for full ArduinoGenerator integration (skeleton, definitions, setup, loop, orphan blocks) in tests/unit/generator/arduino-generator.test.ts
 
 ### Implementation for User Story 1
 
@@ -54,11 +54,11 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 - [X] T017 [P] [US1] Implement arithmetic and logical operator block definitions and C/C++ generators in src/core/generator/blocks/operators.ts
 - [X] T018 [P] [US1] Implement conditional (if / if-else) block definitions and C/C++ generators in src/core/generator/blocks/conditionals.ts
 - [X] T019 [P] [US1] Implement repetition loop block definitions and C/C++ generators in src/core/generator/blocks/loops.ts
-- [ ] T020 [US1] Implement core ArduinoGenerator class extending Blockly.Generator assembling setup() and loop() skeleton in src/core/generator/arduino-generator.ts (depends on T016-T019)
-- [ ] T021 [P] [US1] Define Blockly toolbox configuration containing fundamental algorithm categories in src/core/generator/toolbox.ts
+- [X] T020 [US1] Implement core ArduinoGenerator class extending Blockly.Generator assembling setup() and loop() skeleton in src/core/generator/arduino-generator.ts (depends on T016-T019)
+- [X] T021 [P] [US1] Define Blockly toolbox configuration containing fundamental algorithm categories in src/core/generator/toolbox.ts
 - [X] T022 [US1] Implement dynamic client-side Blockly workspace container component with SVG injection in src/components/workspace/blockly-workspace.tsx
-- [ ] T023 [P] [US1] Implement formatted C/C++ read-only code viewer panel with syntax highlighting and copy action in src/components/workspace/code-viewer.tsx
-- [ ] T024 [US1] Implement Workspace page integrating Blockly canvas, code viewer, and real-time generation listener in src/app/workspace/page.tsx
+- [X] T023 [P] [US1] Implement formatted C/C++ read-only code viewer panel with syntax highlighting and copy action in src/components/workspace/code-viewer.tsx
+- [X] T024 [US1] Implement Workspace page integrating Blockly canvas, code viewer, and real-time generation listener in src/app/workspace/page.tsx
 
 **Checkpoint**: At this point, User Story 1 is fully functional and delivers the core educational value (MVP) independently.
 

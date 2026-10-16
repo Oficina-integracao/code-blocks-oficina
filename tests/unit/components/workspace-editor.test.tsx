@@ -46,12 +46,15 @@ describe("Live workspace page integration (T024)", () => {
   it("updates the preview synchronously when a student inserts, edits, or deletes blocks", () => {
     const { container } = render(<WorkspaceEditor />);
     ready();
+    expect(screen.getByText("Seu primeiro bloco mora aqui!")).toBeInTheDocument();
     const declaration = workspace.newBlock("variables_declare");
     declaration.setFieldValue("velocidade", "VAR");
     const number = workspace.newBlock("math_number");
     number.setFieldValue("100", "NUM");
     declaration.getInput("VALUE")!.connection!.connect(number.outputConnection!);
     change();
+    expect(screen.queryByText("Seu primeiro bloco mora aqui!")).not.toBeInTheDocument();
+    expect(screen.getByText("2 blocos")).toBeInTheDocument();
     expect(container.querySelector("code")?.textContent).toContain("int velocidade = 100;");
     number.setFieldValue("80", "NUM");
     change();
@@ -59,6 +62,7 @@ describe("Live workspace page integration (T024)", () => {
     declaration.dispose();
     change();
     expect(container.querySelector("code")?.textContent).not.toContain("velocidade");
+    expect(screen.getByText("Seu primeiro bloco mora aqui!")).toBeInTheDocument();
   });
 
   it("shows generator diagnostics and clears them after the invalid block is removed", () => {
@@ -66,9 +70,7 @@ describe("Live workspace page integration (T024)", () => {
     ready();
     const invalid = workspace.newBlock("controls_flow_statements");
     change();
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "break/continue requires an enclosing loop",
-    );
+    expect(screen.getByRole("alert")).toHaveTextContent("precisa ficar dentro de uma repetição");
     invalid.dispose();
     change();
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
