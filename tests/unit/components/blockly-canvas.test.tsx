@@ -25,6 +25,10 @@ vi.mock("blockly/msg/pt-br", () => ({
 vi.mock("@/core/generator/blocks/variables", () => ({
   defineVariableBlocks: mocks.defineBlocks,
 }));
+vi.mock("@/components/workspace/playground-theme", () => ({
+  createPlaygroundTheme: () => ({}),
+  playgroundToolbox: {},
+}));
 
 describe("Blockly canvas lifecycle (T022)", () => {
   let listener: (event: { isUiEvent: boolean }) => void;
