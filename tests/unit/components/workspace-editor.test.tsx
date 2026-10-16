@@ -3,7 +3,7 @@ import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as Blockly from "blockly";
 import { ArduinoGenerator } from "@/core/generator/arduino-generator";
-import WorkspaceEditor from "@/components/workspace/workspace-editor";
+import WorkspacePage from "@/app/workspace/page";
 import type { BlocklyWorkspaceProps } from "@/components/workspace/blockly-workspace";
 
 const canvas = vi.hoisted(() => ({ props: {} as BlocklyWorkspaceProps }));
@@ -37,14 +37,14 @@ describe("Live workspace page integration (T024)", () => {
   }
 
   it("generates the initial Arduino skeleton as soon as the canvas is ready", () => {
-    const { container } = render(<WorkspaceEditor />);
+    const { container } = render(<WorkspacePage />);
     ready();
     expect(container.querySelector("code")?.textContent).toContain("void setup() {");
     expect(container.querySelector("code")?.textContent).toContain("void loop() {");
   });
 
   it("updates the preview synchronously when a student inserts, edits, or deletes blocks", () => {
-    const { container } = render(<WorkspaceEditor />);
+    const { container } = render(<WorkspacePage />);
     ready();
     expect(screen.getByText("Seu primeiro bloco mora aqui!")).toBeInTheDocument();
     const declaration = workspace.newBlock("variables_declare");
@@ -66,7 +66,7 @@ describe("Live workspace page integration (T024)", () => {
   });
 
   it("shows generator diagnostics and clears them after the invalid block is removed", () => {
-    render(<WorkspaceEditor />);
+    render(<WorkspacePage />);
     ready();
     const invalid = workspace.newBlock("controls_flow_statements");
     change();
@@ -77,7 +77,7 @@ describe("Live workspace page integration (T024)", () => {
   });
 
   it("clears stale source on unexpected failures and recovers after another edit", () => {
-    const { container } = render(<WorkspaceEditor />);
+    const { container } = render(<WorkspacePage />);
     ready();
     vi.spyOn(ArduinoGenerator.prototype, "generateCode").mockImplementationOnce(() => {
       throw new Error("private internal details");

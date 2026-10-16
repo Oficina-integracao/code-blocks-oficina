@@ -13,7 +13,8 @@ const mocks = vi.hoisted(() => ({
   disconnect: vi.fn(),
 }));
 
-vi.mock("blockly", () => ({
+vi.mock("blockly", async (importOriginal) => ({
+  ...(await importOriginal<typeof Blockly>()),
   inject: mocks.inject,
   svgResize: mocks.resize,
   setLocale: mocks.locale,
@@ -24,10 +25,6 @@ vi.mock("blockly/msg/pt-br", () => ({
 }));
 vi.mock("@/core/generator/blocks/variables", () => ({
   defineVariableBlocks: mocks.defineBlocks,
-}));
-vi.mock("@/components/workspace/playground-theme", () => ({
-  createPlaygroundTheme: () => ({}),
-  playgroundToolbox: {},
 }));
 
 describe("Blockly canvas lifecycle (T022)", () => {
