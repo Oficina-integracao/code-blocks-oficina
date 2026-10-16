@@ -123,6 +123,8 @@ This document defines the dependency-ordered, test-driven implementation tasks f
   - [X] Review the new landing page visually on desktop and mobile (confirmed by the developer).
   - [ ] Integrate the Workspace destination after T024 and Google login after T029; these dependencies remain outside the current independent delivery.
 - [ ] T043 [P] Create seed script and Supabase local configuration for initial admin account in supabase/seed.sql
+  - [X] Prepare local config, administrator fixture without login credentials, environment example, and setup guide.
+  - [X] Run the five pgTAP seed tests against local Supabase, including seed reapplication with scripts/test-local-seed.cjs.
 - [ ] T044 Run all end-to-end validation scenarios per specs/001-code-blocks-arduino/quickstart.md
 - [ ] T045 Execute full static analysis, typecheck, and test suite to verify 100% CI pass and line limits per Constitution DoD in src/
 
