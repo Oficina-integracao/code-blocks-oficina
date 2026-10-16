@@ -864,6 +864,9 @@ O Supabase permanece responsável pela camada de dados e autenticação.
 
 # 🔧 Instalação Local
 
+Para configurar o banco e o administrador de testes, consulte o
+[guia do Supabase local](docs/SUPABASE_LOCAL.md).
+
 ## Pré-requisitos
 
 Antes de executar o projeto, é necessário possuir:
