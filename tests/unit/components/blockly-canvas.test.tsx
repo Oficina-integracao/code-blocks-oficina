@@ -18,7 +18,10 @@ vi.mock("blockly", () => ({
   svgResize: mocks.resize,
   setLocale: mocks.locale,
 }));
-vi.mock("blockly/msg/pt-br", () => ({ default: {} }));
+vi.mock("blockly/msg/pt-br", () => ({
+  default: {},
+  CONTROLS_REPEAT_TITLE: "repita %1 vezes",
+}));
 vi.mock("@/core/generator/blocks/variables", () => ({
   defineVariableBlocks: mocks.defineBlocks,
 }));
@@ -57,6 +60,7 @@ describe("Blockly canvas lifecycle (T022)", () => {
   it("defines custom blocks before injection and reports the ready workspace", () => {
     const onReady = vi.fn();
     render(<BlocklyCanvas onReady={onReady} />);
+    expect(mocks.locale).toHaveBeenCalledWith({ CONTROLS_REPEAT_TITLE: "repita %1 vezes" });
     expect(mocks.defineBlocks.mock.invocationCallOrder[0]).toBeLessThan(
       mocks.inject.mock.invocationCallOrder[0],
     );

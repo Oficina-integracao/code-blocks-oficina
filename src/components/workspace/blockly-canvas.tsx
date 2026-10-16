@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as Blockly from "blockly";
-import Portuguese from "blockly/msg/pt-br";
+import * as Portuguese from "blockly/msg/pt-br";
 import { defineVariableBlocks } from "@/core/generator/blocks/variables";
 import { toolbox } from "@/core/generator/toolbox";
 import type { BlocklyWorkspaceProps } from "./blockly-workspace";
@@ -14,7 +14,10 @@ export default function BlocklyCanvas({ onReady, onChange }: BlocklyWorkspacePro
 
   React.useEffect(() => {
     if (!container.current) return;
-    Blockly.setLocale(Portuguese);
+    const messages = Object.entries(Portuguese).filter(
+      (entry): entry is [string, string] => typeof entry[1] === "string",
+    );
+    Blockly.setLocale(Object.fromEntries(messages));
     defineVariableBlocks();
     const workspace = Blockly.inject(container.current, {
       toolbox,
