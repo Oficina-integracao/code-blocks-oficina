@@ -57,7 +57,7 @@ This document defines the dependency-ordered, test-driven implementation tasks f
 - [ ] T020 [US1] Implement core ArduinoGenerator class extending Blockly.Generator assembling setup() and loop() skeleton in src/core/generator/arduino-generator.ts (depends on T016-T019)
 - [ ] T021 [P] [US1] Define Blockly toolbox configuration containing fundamental algorithm categories in src/core/generator/toolbox.ts
 - [ ] T022 [US1] Implement dynamic client-side Blockly workspace container component with SVG injection in src/components/workspace/blockly-workspace.tsx
-- [ ] T023 [P] [US1] Implement formatted C/C++ read-only code viewer panel with syntax highlighting and copy action in src/components/workspace/code-viewer.tsx
+- [X] T023 [P] [US1] Implement formatted C/C++ read-only code viewer panel with syntax highlighting and copy action in src/components/workspace/code-viewer.tsx
 - [ ] T024 [US1] Implement Workspace page integrating Blockly canvas, code viewer, and real-time generation listener in src/app/workspace/page.tsx
 
 **Checkpoint**: At this point, User Story 1 is fully functional and delivers the core educational value (MVP) independently.

@@ -22,9 +22,9 @@ describe("Arduino code viewer (T023)", () => {
     expect(container.querySelector("code")?.textContent).toBe(code);
     expect(container.querySelector("textarea, input, [contenteditable=true]")).toBeNull();
     expect(screen.getByLabelText("Código Arduino C++")).toHaveAttribute("tabindex", "0");
-    expect(screen.getByText("void")).toHaveClass("text-sky-300");
-    expect(screen.getByText("100")).toHaveClass("text-violet-300");
-    expect(screen.getByText("// exemplo")).toHaveClass("text-emerald-300");
+    expect(screen.getByText("void")).toHaveClass("text-sky-700");
+    expect(screen.getByText("100")).toHaveClass("text-violet-700");
+    expect(screen.getByText("// exemplo")).toHaveClass("text-emerald-700");
     expect(screen.getByTestId("line-numbers").textContent).toBe("1\n2\n3");
   });
 
